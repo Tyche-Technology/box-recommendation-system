@@ -40,9 +40,11 @@ export interface RecommendRequest {
 
 export interface RecommendResult {
   box: Box;
-  utilization: number; // 0~1
+  utilization: number; // 0~1 (박스 전체 부피 기준)
+  effectiveUtilization: number; // 0~1 (완충재 제외 유효 공간 기준)
   totalProductVolume: number;
   boxVolume: number;
+  effectiveBoxVolume: number;
   fits: boolean;
   arrangement: PlacedItem[];
 }

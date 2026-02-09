@@ -22,8 +22,11 @@ function getUtilizationBarColor(util: number): string {
 
 export default function BoxResult({ result, rank, isSelected, onSelect }: Props) {
   const utilPct = Math.round(result.utilization * 100);
+  const effUtilPct = Math.round(result.effectiveUtilization * 100);
   const colorClass = getUtilizationColor(result.utilization);
   const barColor = getUtilizationBarColor(result.utilization);
+  const effColorClass = getUtilizationColor(result.effectiveUtilization);
+  const effBarColor = getUtilizationBarColor(result.effectiveUtilization);
 
   return (
     <div
@@ -50,7 +53,7 @@ export default function BoxResult({ result, rank, isSelected, onSelect }: Props)
       </p>
 
       {/* 활용률 바 */}
-      <div className="mb-3">
+      <div className="mb-2">
         <div className="flex justify-between items-center mb-1">
           <span className="text-xs text-gray-500">공간 활용률</span>
           <span className={`text-sm font-bold px-2 py-0.5 rounded border ${colorClass}`}>
@@ -61,6 +64,22 @@ export default function BoxResult({ result, rank, isSelected, onSelect }: Props)
           <div
             className={`h-full rounded-full transition-all ${barColor}`}
             style={{ width: `${utilPct}%` }}
+          />
+        </div>
+      </div>
+
+      {/* 완충재 포함 활용률 */}
+      <div className="mb-3">
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs text-gray-500">완충재 포함 활용률</span>
+          <span className={`text-sm font-bold px-2 py-0.5 rounded border ${effColorClass}`}>
+            {effUtilPct}%
+          </span>
+        </div>
+        <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all ${effBarColor}`}
+            style={{ width: `${Math.min(effUtilPct, 100)}%` }}
           />
         </div>
       </div>

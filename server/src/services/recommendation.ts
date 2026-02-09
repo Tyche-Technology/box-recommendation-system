@@ -31,15 +31,22 @@ export function recommendBoxes(
     }
 
     const boxVolume = box.length * box.width * box.height;
+    const effectiveBoxVolume =
+      (box.length - padding * 2) * (box.width - padding * 2) * (box.height - padding * 2);
     const packResult = tryPack(products, box, padding);
 
     if (packResult.fits) {
       const utilization = packResult.totalVolume / boxVolume;
+      const effectiveUtilization = effectiveBoxVolume > 0
+        ? packResult.totalVolume / effectiveBoxVolume
+        : 0;
       results.push({
         box,
         utilization,
+        effectiveUtilization,
         totalProductVolume: totalVolume,
         boxVolume,
+        effectiveBoxVolume,
         fits: true,
         arrangement: packResult.placed,
       });
